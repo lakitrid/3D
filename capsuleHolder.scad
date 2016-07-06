@@ -11,8 +11,10 @@ railWidth = 2; // Width of the wall
 railInner = 2; // inner space between the outer wall and the inner wall (holding the capsule)
 railLength = 2; // length of the holding part
 
+// Use 1 for base, 2 for middle module, 3 for upper module
 draw = 3;
 
+// Defines the outer edge
 module outerEdge(edgeHeight) { 
     minkowski() {
         cube([
@@ -25,6 +27,7 @@ module outerEdge(edgeHeight) {
     };
 }
 
+// Defines the inner edge
 module innerEdge(edgeHeight) {
     minkowski() {
         cube([
@@ -37,6 +40,7 @@ module innerEdge(edgeHeight) {
     }
 }
 
+// defines the L part of the rail, add a bottom bar for the base
 module rail(baseRail) {
        translate([-1 * railSpace / 2, 0, 0])  
         union() {
@@ -48,11 +52,13 @@ module rail(baseRail) {
         }
 }
 
+// defines the two part of the rail
 module oneRail(baseRail) {
     translate([0, edgeSize/2, 0])  rail(baseRail);
     mirror([1, 0, 0]) translate([0, edgeSize/2, 0])  rail(baseRail);    
 }
 
+// defines the 4 rail (one on each face
 module addRail(baseRail) {
     oneRail(baseRail);
     rotate([0, 0, 90]) oneRail(baseRail);
@@ -60,6 +66,7 @@ module addRail(baseRail) {
     rotate([0, 0, 270]) oneRail(baseRail);
 }
 
+// defines pilar to maintain central shaft
 module pilar() {
     translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 6]);
     rotate([0, 0, 90]) translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 6]);
