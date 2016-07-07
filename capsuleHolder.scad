@@ -1,6 +1,6 @@
 // Parametric capsule holder with module (base, middle, high)
 
-baseHeight = 25; // height of the base
+baseHeight = 20; // height of the base
 
 edgeSize = 70; // size of the capsule holder
 edgeRadius = 12; // radius of the minkowski
@@ -10,6 +10,8 @@ railSpace = 40; // Space between the two rails
 railWidth = 2; // Width of the wall
 railInner = 2; // inner space between the outer wall and the inner wall (holding the capsule)
 railLength = 2; // length of the holding part
+
+$fn=100;
 
 // Use 1 for base, 2 for middle module, 3 for upper module
 draw = 3;
@@ -68,10 +70,10 @@ module addRail(baseRail) {
 
 // defines pilar to maintain central shaft
 module pilar() {
-    translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 6]);
-    rotate([0, 0, 90]) translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 6]);
-    rotate([0, 0, 180]) translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 6]);
-    rotate([0, 0, 270]) translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 6]);    
+    translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 3]);
+    rotate([0, 0, 90]) translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 3]);
+    rotate([0, 0, 180]) translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 3]);
+    rotate([0, 0, 270]) translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 3]);    
 }
 
 // Defines the base
@@ -83,9 +85,9 @@ if(draw == 1) {
             translate([0, 0, 2]) innerEdge(baseHeight);
         }
         
-        translate([0, 0, baseHeight / 2])
+        translate([0, 0, (baseHeight + 1) / 2])
         difference() {
-            cube([10, 10, baseHeight], center = true);
+            cube([10, 10, baseHeight + 1], center = true);
             translate([0, 0, baseHeight / 2]) cube([5, 5, baseHeight / 2], center = true);
         }
         
@@ -104,14 +106,14 @@ if(draw == 2)
         
         pilar();
         
-        translate([0, 0, baseHeight / 2])
+        translate([0, 0, (baseHeight + 1) / 2])
         union() {
             difference() {
-                cube([10, 10, baseHeight], center = true);
+                cube([10, 10, baseHeight + 1], center = true);
                 translate([0, 0, -1 * baseHeight / 2]) cube([5, 5, baseHeight / 2], center = true);                
             }
             
-            translate([0, 0, baseHeight / 2]) cube([5, 5, (baseHeight / 2) - 1], center = true);
+            translate([0, 0, (baseHeight + 1 ) / 2]) cube([5, 5, (baseHeight / 2) - 1], center = true);
         }
         
         addRail(baseRail = false);
@@ -127,12 +129,11 @@ if(draw == 3)
             translate([0, 0, 2]) innerEdge(baseHeight);            
         }
         
-        translate([0, 0, baseHeight / 2])
+        translate([0, 0, (baseHeight + 1) / 2])
         union() {
-            difference() {
-                cube([10, 10, baseHeight], center = true);
-                translate([0, 0, baseHeight / 2]) cube([5, 5, baseHeight / 2], center = true);                
-            }
+            cube([10, 10, baseHeight + 1], center = true);
+            
+            translate([0, 0, (baseHeight + 1 ) / 2]) cube([5, 5, (baseHeight / 2) - 1], center = true);
         }
         
         addRail(baseRail = false);
