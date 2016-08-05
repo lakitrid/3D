@@ -2,8 +2,8 @@
     Level Foot for 2020 aluminium frame
 */
 
-// Select the part to render, 1 = foot holder, 2 = foot
-draw = 1;
+// Select the part to render, 1 = foot holder, 2 = foot, -1 = All
+draw = 2;
 
 Width = 3;
 HolderLength = 40;
@@ -17,10 +17,17 @@ lowHolderHeight = 6;
 nut = 8;
 nutHeight = 2;
 
+footBottomDiam = 20;
+footTopDiam = 12;
+footHeight = 12;
+
+footScrewShaft = 6;
+lowerShaftguard = 4;
+
 $fn = 50;
 
 // Render the foot holder
-if(draw == 1)
+if(draw == 1 || draw == -1)
 {
     union() {    
         difference() {
@@ -61,7 +68,22 @@ module support() {
 }
 
 // render the foot
-if(draw == 2) 
+if(draw == 2 || draw == -1) 
 {
-    
+    translate([-20, 0, footHeight / 2]) {
+        union() {
+            difference() {
+                cylinder(d1 = footBottomDiam, d2 = footTopDiam, h = footHeight, center = true);
+
+                translate([0, 0, -footScrewShaft / 2]) 
+                    cylinder(d = screw + lowerShaftguard, h = footHeight - footScrewShaft, center = true);
+
+                translate([0, 0, footHeight / 2 - footScrewShaft / 2]) 
+                    cylinder(d = screw, h = footScrewShaft, center = true);
+
+                translate([0, 0, footHeight / 2 - nutHeight / 2]) 
+                    cylinder(d = nut, h = nutHeight, $fn = 5, center = true);
+            }
+        }
+    }
 }
