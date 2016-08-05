@@ -6,16 +6,16 @@ edgeSize = 70; // size of the capsule holder
 edgeRadius = 12; // radius of the minkowski
 edgeDepth = 3; // Width of the wall
 
-railSpace = 44; // Space between the two rails
+railSpace = 42; // Space between the two rails
 railWidth = 2; // Width of the wall
-railInner = 2.3; // inner space between the outer wall and the inner wall (holding the capsule)
+railInner = 3; // inner space between the outer wall and the inner wall (holding the capsule)
 railLength = 3; // length of the holding part
 shaft = 6.8;
 
 $fn=100;
 
 // Use 1 for base, 2 for middle module, 3 for upper module
-draw = 3;
+draw = 1;
 
 // Defines the outer edge
 module outerEdge(edgeHeight) { 
@@ -82,15 +82,17 @@ module shaftEle() {
         difference() {
             cube([10, 10, baseHeight + 1], center = true);
             if(draw == 1) {
-                translate([0, 0, baseHeight / 2]) cube([shaft, shaft, baseHeight / 2], center = true);
-            } else {                
-                translate([0, 0, -1 * baseHeight / 2]) cube([shaft, shaft, baseHeight / 2], center = true);
-            }
+                translate([0, 0, 0]) cube([shaft, shaft, baseHeight + 1], center = true);
+            } else if(draw == 2) {                
+                translate([0, 0, -2]) cube([shaft, shaft, (baseHeight - 2)], center = true);
+            } else {
+                translate([0, 0, 0]) cube([shaft, shaft, (baseHeight - 2)], center = true);                
+            }           
         }
         
         if(draw != 1) { 
-            translate([0, 0, (baseHeight + 1 ) / 2]) 
-                cube([shaft - 0.8, shaft - 0.8, (baseHeight / 2) - 1.2], center = true);
+            translate([0, 0, (baseHeight /4) * 3]) 
+                cube([shaft - 0.5, shaft - 0.5, (baseHeight / 2) - 1.2], center = true);
         }
     }
 }
@@ -111,20 +113,21 @@ if(draw == 1 || draw == -1) {
 }
 
 if(draw == 2 || draw == -1)
-{    
-    translate([0, 0, baseHeight]) union() {
-        translate([0, 0, baseHeight / 2])
-        difference() {
-            outerEdge(baseHeight);
-            innerEdge(baseHeight);            
-        }
-        
-        pilar();
-        
-        translate([0, 0, (baseHeight + 1) / 2])  shaftEle();
-        
-        addRail(baseRail = false);
-    }
+{
+        translate([0, 0, baseHeight]) 
+             union() {
+                translate([0, 0, baseHeight / 2])
+                difference() {
+                    outerEdge(baseHeight);
+                    innerEdge(baseHeight);            
+                }
+
+                pilar();
+
+                translate([0, 0, (baseHeight + 1) / 2])  shaftEle();
+
+                addRail(baseRail = false);
+            }
 }
 
 if(draw == 3 || draw == -1)
@@ -147,9 +150,9 @@ if(draw == 4)
         union() {
             difference() {
                 cube([10, 10, baseHeight + 1], center = true);
-                translate([0, 0, -1 * baseHeight / 2]) cube([shaft, shaft, baseHeight / 2], center = true);                
+                //translate([0, 0, -1 * baseHeight / 2]) cube([shaft, shaft, baseHeight / 2], center = true);                
             }
             
-            translate([0, 0, (baseHeight + 1 ) / 2]) cube([shaft - 0.8, shaft - 0.8, (baseHeight / 2) - 1.2], center = true);
+            translate([0, 0, (baseHeight + 1 ) / 2]) cube([shaft - 0.5, shaft - 0.5, 7], center = true);
         }
 }
