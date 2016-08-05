@@ -1,3 +1,9 @@
+/*
+
+DIN base from http://www.thingiverse.com/thing:101024
+
+*/
+
 CLIP_H = 8;
 HOLE_DEPTH = 9;
 HOLE_DIAMETER = 3;
