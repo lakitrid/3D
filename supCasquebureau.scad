@@ -14,6 +14,7 @@ footLength = 5;
 
 union(){
     cube([innerLength, height + innerHeight, width]);
+    mirror([0, 1, 0]) cube([innerLength, height, width]);
 
     translate([innerLength, 0, 0]) {
         cube([rimLength + lengthHolder + rimHolderLength, HolderHeight, width]);
