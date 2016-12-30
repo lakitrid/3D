@@ -1,49 +1,30 @@
-Width = 4;
-HoldLength = 60;
-Height = 2;
+diameter = 58;
+width = 3;
+height = 2;
+screw = 4;
+screwHolder = 10 + width;
 
-LowHeight = 20;
+$fn = 50;
+part = 0;
 
-bottomHoldLength = 70;
+module screwSupport(right) {
+    difference() {     
+        cube([screwHolder, width, height]);
 
-hangerHeight = 26;
+        translate([screwHolder / 2 + (right * width / 2), width * 2, height / 2]) rotate([90, 0, 0]) cylinder(d = screw, h = width * 4);
+    }
+}
 
-stripWidth = 58;
-stripHeight = 38;
-stripHolderLength = 10;
+if(part == 0) {
+    union() {
+        difference() {
+            cylinder(d = diameter + width, h = height);
+            cylinder(d = diameter, h = height);
 
-union() {
-    cube([HoldLength, Width, Height], center = true);
-
-    translate([HoldLength / 2 - Width / 2, LowHeight / 2 + Width / 2, 0]) {
-        cube([Width, LowHeight, Height], center = true);
-
-        translate([-(bottomHoldLength / 2 + Width / 2), LowHeight / 2 - Width / 2, 0]) {
-            cube([bottomHoldLength, Width, Height], center = true);
-            
-            translate([-(bottomHoldLength / 2 - Width / 2), hangerHeight / 2 + Width / 2, 0]) {
-                cube([Width, hangerHeight, Height], center = true);
-                
-                translate([0, (hangerHeight / 2 + Width / 2), 0]) {
-                    cube([stripWidth, Width, Height], center = true);
-
-                    translate([(stripWidth / 2 - Width / 2), (stripHeight / 2 + Width / 2), 0]) {
-                        cube([Width, stripHeight, Height], center = true);
-                        
-                        translate([-(stripHolderLength / 2 - Width / 2), stripHeight / 2 + Width / 2, 0]) {
-                            cube([stripHolderLength, Width, Height], center = true);
-                        }
-                    }
-
-                    translate([-(stripWidth / 2 - Width / 2), (stripHeight / 2 + Width / 2), 0]) {
-                        cube([Width, stripHeight, Height], center = true);
-                        
-                        translate([(stripHolderLength / 2 - Width / 2), stripHeight / 2 + Width / 2, 0]) {
-                            cube([stripHolderLength, Width, Height], center = true);
-                        }
-                    }
-                }
-            }
+            translate([-diameter, 0, 0]) cube([diameter * 2, (diameter + width), height]);
         }
+
+        //translate([-(diameter / 2 + screwHolder), 0, 0]) screwSupport(-1);
+        //translate([diameter / 2, 0, 0]) screwSupport(1);
     }
 }
