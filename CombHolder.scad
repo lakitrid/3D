@@ -19,6 +19,8 @@ sideEmptyL = HolderHeight - 4 * HolderThick;
 
 sideEmptyW = (HolderWidth - 2 * HolderThick) / (sideEmptyCount + 1);
 
+part = 1;
+
 module empty(width, length) {
     linear_extrude(h = HolderThick, center = true)
         resize([width, length]) circle(d=10, $fn= 50);
@@ -52,10 +54,11 @@ module token() {
     rotate([90, 0, 0]) cylinder(d = cylDiam, h = cylLength, $fn = 50, center = true);
 }
 
-union() {
-    translate([0,0,0]) box();
-    translate([HolderLength / 2 - cylFromFront,HolderWidth / 2 + cylLength / 2, HolderHeight/ 2 - cylFromTop]) { 
-        token();
-        translate([-cylInterval,0,0]) token();
+
+    union() {
+        translate([0,0,0]) box();
+        translate([HolderLength / 2 - cylFromFront,HolderWidth / 2 + cylLength / 2, HolderHeight/ 2 - cylFromTop]) { 
+            token();
+            translate([-cylInterval,0,0]) token();
+        }
     }
-}
