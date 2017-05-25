@@ -1,6 +1,6 @@
 // Parametric capsule holder with module (base, middle, high)
 
-baseHeight = 20; // height of the base
+baseHeight = 30; // height of the base
 
 edgeSize = 70; // size of the capsule holder
 edgeRadius = 12; // radius of the minkowski
@@ -12,10 +12,16 @@ railInner = 3; // inner space between the outer wall and the inner wall (holding
 railLength = 3; // length of the holding part
 shaft = 6.8;
 
+sholderWidth = 12;
+sholderHeight = 12;
+screwDiam = 4;
+sholderWall = 2;
+
+
 $fn=100;
 
 // Use 1 for base, 2 for middle module, 3 for upper module
-draw = 1;
+draw = 5;
 
 // Defines the outer edge
 module outerEdge(edgeHeight) { 
@@ -69,6 +75,17 @@ module addRail(baseRail) {
     rotate([0, 0, 270]) oneRail(baseRail);
 }
 
+module screwHolder() {
+    difference() {
+        cube([sholderWidth, sholderWidth, sholderHeight]);
+        translate([0, 0, 0]) rotate([45, 0, 0]) cube([sholderWidth, sholderWidth * 2, sholderHeight]);
+
+        translate([sholderWidth / 2, sholderWidth / 2, 0]) cylinder(h = sholderHeight, d = screwDiam);
+
+        translate([sholderWall, sholderWall, sholderWall]) cube([sholderWidth - sholderWall * 2, sholderWidth - sholderWall * 2, sholderHeight - sholderWall * 2]);
+    }
+}
+
 // defines pilar to maintain central shaft
 module pilar() {
     translate([5, -3, 0]) cube([edgeSize / 2 - 5, 6, 3]);
@@ -97,6 +114,10 @@ module shaftEle() {
     }
 }
 
+if(draw == 5) {
+    screwHolder();
+}
+
 // Defines the base
 if(draw == 1 || draw == -1) {
     union() {
@@ -122,9 +143,9 @@ if(draw == 2 || draw == -1)
                     innerEdge(baseHeight);            
                 }
 
-                pilar();
+                //pilar();
 
-                translate([0, 0, (baseHeight + 1) / 2])  shaftEle();
+                //translate([0, 0, (baseHeight + 1) / 2])  shaftEle();
 
                 addRail(baseRail = false);
             }
