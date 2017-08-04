@@ -1,9 +1,9 @@
-bottleInnerDiamH = 50;
-bottleInnerDiamL = 45;
-holderThickness = 6;
-holderHigh = 10;
+bottleInnerDiamH = 60;
+bottleInnerDiamL = 54;
+holderThickness = 4;
+holderHigh = 7;
 
-stickDiam = 6;
+stickDiam = 7;
 circlepos = bottleInnerDiamH / 2 + stickDiam / 2 + holderThickness / 2;
 
 $fn = 50;
