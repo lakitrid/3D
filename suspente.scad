@@ -30,7 +30,7 @@ module support() {
 module cable(zAngle) {
     translate([0,0,hauteur])
         rotate([-10,0,zAngle])
-            cube([cable, epaisseur, hauteur * 4], center = true);
+            cube([cable, cable, hauteur * 4], center = true);
 }
 
 module center() {
